@@ -3,113 +3,215 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Naveen Exam Prep - मॉक टेस्ट & PYQ प्रैक्टिस</title>
+  <title>Naveen Exam Prep - Professional Mock Test Platform</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-      background:#f0f4f8; 
-      color:#333; 
-      line-height:1.6; 
-      transition: background 0.3s, color 0.3s; 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f7; /* Apple-like light gray */
+      color: #1d1d1f; /* Apple's dark text */
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    .container { max-width:1100px; margin:0 auto; padding:20px; }
-
-    header { 
-      background: linear-gradient(135deg, #007bff, #0056b3); 
-      color:white; 
-      text-align:center; 
-      padding:40px 20px; 
+    header {
+      background: #000; /* Dark header like Apple */
+      color: #fff;
+      text-align: center;
+      padding: 80px 20px;
+      position: relative;
+      overflow: hidden;
     }
-    header h1 { font-size:2.5rem; margin-bottom:10px; }
-    header p { font-size:1.2rem; }
-
-    nav { 
-      background:#fff; 
-      box-shadow:0 2px 5px rgba(0,0,0,0.1); 
-      padding:15px 0; 
-      text-align:center; 
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+      z-index: 1;
     }
-    #search { 
-      width:70%; max-width:500px; 
-      padding:12px; 
-      font-size:1rem; 
-      border:1px solid #ccc; 
-      border-radius:5px; 
+    header .container {
+      position: relative;
+      z-index: 2;
     }
-    #saved-info { margin-top:10px; font-weight:bold; color:#007bff; }
-
-    .categories { 
-      display:grid; 
-      grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); 
-      gap:15px; 
-      margin:30px 0; 
+    header h1 {
+      font-size: 3rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: -0.05em;
     }
-    .categories button, .ai-btn { 
-      padding:20px; 
-      font-size:1.2rem; 
-      background:#007bff; 
-      color:white; 
-      border:none; 
-      border-radius:8px; 
-      cursor:pointer; 
-      transition:0.3s; 
+    header p {
+      font-size: 1.4rem;
+      opacity: 0.8;
+      margin-bottom: 40px;
     }
-    .categories button:hover, .ai-btn:hover { 
-      background:#0056b3; 
-      transform:scale(1.05); 
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
-    .ai-btn { 
-      background:#6f42c1; 
-      grid-column: 1 / -1; 
-      margin-top:20px; 
+    .search-bar {
+      margin: 40px 0;
+      text-align: center;
     }
-
-    #quiz-section { 
-      background:white; 
-      border-radius:12px; 
-      box-shadow:0 5px 15px rgba(0,0,0,0.1); 
-      padding:30px; 
-      margin:30px auto; 
-      max-width:800px; 
+    #search {
+      width: 80%;
+      max-width: 700px;
+      padding: 15px 25px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 999px; /* Rounded like Apple search */
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      outline: none;
+      transition: box-shadow 0.3s;
     }
-    .quiz-header { display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; }
-    #timer { color:#dc3545; font-size:1.3rem; }
-    #progress { color:#28a745; }
-
-    #question-text { font-size:1.4rem; margin-bottom:25px; }
-    #options-container button { 
-      display:block; 
-      width:100%; 
-      padding:15px; 
-      margin:10px 0; 
-      background:#f8f9fa; 
-      border:1px solid #ddd; 
-      border-radius:6px; 
-      text-align:left; 
-      cursor:pointer; 
-      font-size:1.1rem; 
-      transition:0.2s; 
+    #search:focus {
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
     }
-    #options-container button:hover { background:#e9ecef; }
-
-    .quiz-actions { margin-top:30px; text-align:center; }
-    .quiz-actions button { padding:12px 25px; font-size:1.1rem; margin:0 10px; border:none; border-radius:6px; cursor:pointer; }
-    #bookmark-btn { background:#ffc107; color:#333; }
-    #next-btn { background:#28a745; color:white; }
-
-    #result-section { text-align:center; background:white; padding:40px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); margin:40px auto; max-width:600px; }
-    #result-section h2 { color:#007bff; }
-
-    footer { background:#333; color:white; text-align:center; padding:20px; margin-top:50px; font-size:0.9rem; }
-
-    .dark body { background:#121212; color:#e0e0e0; }
-    .dark header { background:linear-gradient(135deg, #004085, #002752); }
-    .dark nav { background:#1e1e1e; }
-    .dark #quiz-section, .dark #result-section { background:#1e1e1e; border:1px solid #333; }
-    .dark #options-container button { background:#2c2c2c; border-color:#444; color:#e0e0e0; }
-    .dark #options-container button:hover { background:#3a3a3a; }
+    .categories-title {
+      font-size: 2rem;
+      font-weight: 500;
+      text-align: center;
+      margin: 60px 0 30px;
+      color: #1d1d1f;
+      letter-spacing: -0.02em;
+    }
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 18px; /* Apple-like rounded corners */
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+    .card:hover {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      transform: translateY(-5px);
+    }
+    .card-header {
+      background: #007bff;
+      color: white;
+      padding: 20px;
+      font-size: 1.5rem;
+      font-weight: 500;
+      text-align: center;
+      letter-spacing: -0.01em;
+    }
+    .card-body {
+      padding: 25px;
+      text-align: center;
+    }
+    .card-body p {
+      font-size: 1.1rem;
+      color: #6e6e73; /* Apple gray text */
+      margin-bottom: 20px;
+    }
+    .card-btn {
+      background: #007bff;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 999px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .card-btn:hover {
+      background: #0062cc;
+    }
+    #quiz-section {
+      display: none;
+      background: #fff;
+      margin: 40px auto;
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      max-width: 800px;
+    }
+    #timer {
+      color: #ff3b30; /* Apple red */
+      font-size: 1.6rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    #question-text {
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin: 0 0 30px;
+      letter-spacing: -0.02em;
+    }
+    #options-container button {
+      display: block;
+      width: 100%;
+      padding: 18px;
+      margin: 12px 0;
+      background: #f5f5f7;
+      border: none;
+      border-radius: 12px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: background 0.3s;
+    }
+    #options-container button:hover {
+      background: #e5e5ea;
+    }
+    .quiz-actions {
+      margin-top: 40px;
+      text-align: center;
+    }
+    .quiz-actions button {
+      padding: 14px 40px;
+      font-size: 1.2rem;
+      margin: 0 15px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    #bookmark-btn {
+      background: #ffcc00;
+      color: #000;
+    }
+    #next-btn {
+      background: #007bff;
+      color: white;
+    }
+    #result-section {
+      display: none;
+      text-align: center;
+      background: #fff;
+      padding: 60px;
+      border-radius: 18px;
+      margin: 60px auto;
+      max-width: 600px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+    #result-section h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #1d1d1f;
+      margin-bottom: 20px;
+    }
+    footer {
+      background: #f5f5f7;
+      color: #6e6e73;
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid #d2d2d7;
+      font-size: 0.9rem;
+    }
+    footer p { margin: 5px 0; }
   </style>
 </head>
 <body>
@@ -117,152 +219,146 @@
   <header>
     <div class="container">
       <h1>Naveen Exam Prep</h1>
-      <p>SSC, Banking, Railways, UPSC जैसी परीक्षाओं के लिए सिर्फ मॉक टेस्ट और प्रैक्टिस</p>
-      <button id="theme-toggle"><i class="fas fa-moon"></i> डार्क मोड</button>
+      <p>SSC, Banking, Railways, UPSC जैसी परीक्षाओं के लिए प्रोफेशनल मॉक टेस्ट और प्रैक्टिस</p>
     </div>
   </header>
 
-  <nav class="container">
-    <input type="text" id="search" placeholder="एग्जाम या टॉपिक सर्च करें...">
-    <div id="saved-info">Saved Questions: <span id="saved-count">0</span></div>
-  </nav>
+  <div class="container">
+    <div class="search-bar">
+      <input type="text" id="search" placeholder="एग्जाम सर्च करें...">
+    </div>
 
-  <section class="container" id="home">
-    <h2>कैटेगरी चुनें</h2>
+    <h2 class="categories-title">परीक्षा कैटेगरी</h2>
     <div class="categories">
-      <button onclick="startQuiz('gk')">General Knowledge / Current Affairs</button>
-      <button onclick="startQuiz('math')">Quantitative Aptitude</button>
-      <button onclick="startQuiz('reasoning')">Reasoning</button>
-      <button onclick="startQuiz('english')">English</button>
+      <div class="card" onclick="startQuiz('gk')">
+        <div class="card-header">General Knowledge</div>
+        <div class="card-body">
+          <p>Current Affairs, History, Geography</p>
+          <a class="card-btn">शुरू करें</a>
+        </div>
+      </div>
+
+      <div class="card" onclick="startQuiz('math')">
+        <div class="card-header">Quantitative Aptitude</div>
+        <div class="card-body">
+          <p>Maths, Number System, Algebra</p>
+          <a class="card-btn">शुरू करें</a>
+        </div>
+      </div>
+
+      <div class="card" onclick="startQuiz('reasoning')">
+        <div class="card-header">Reasoning</div>
+        <div class="card-body">
+          <p>Logical, Verbal, Non-Verbal</p>
+          <a class="card-btn">शुरू करें</a>
+        </div>
+      </div>
+
+      <div class="card" onclick="startQuiz('english')">
+        <div class="card-header">English Language</div>
+        <div class="card-body">
+          <p>Grammar, Vocabulary, Comprehension</p>
+          <a class="card-btn">शुरू करें</a>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- AI बटन -->
-    <button class="ai-btn" onclick="generateQuestionsFromGroq()">AI से 10 नए सवाल बनवाओ (Groq API)</button>
-
-    <div id="saved-section" style="margin-top: 30px;">
-      <h3>Saved Questions (<span id="saved-num">0</span>)</h3>
-      <button onclick="showSaved()">Saved देखें / प्रैक्टिस करें</button>
-      <button onclick="clearSaved()">Clear All Saved</button>
+  <section id="quiz-section">
+    <div class="container">
+      <div id="timer">समय बाकी: <span id="time-left">30:00</span></div>
+      <h2 id="question-text"></h2>
+      <div id="options-container"></div>
+      <div class="quiz-actions">
+        <button id="bookmark-btn"><i class="far fa-star"></i> Save</button>
+        <button id="next-btn">अगला</button>
+      </div>
     </div>
   </section>
 
-  <section class="container" id="quiz-section" style="display:none;">
-    <div class="quiz-header">
-      <div id="timer">समय बाकी: <span id="time-left">00:00</span></div>
-      <div id="progress">सवाल <span id="q-no">1</span> / <span id="total-q">50</span></div>
+  <section id="result-section">
+    <div class="container">
+      <h2>आपका रिजल्ट</h2>
+      <p>स्कोर: <span id="final-score">0</span> / <span id="final-total">0</span></p>
+      <p>परसेंटेज: <span id="percent">0</span>%</p>
+      <button onclick="restartQuiz()">फिर से शुरू</button>
     </div>
-    <h2 id="question-text"></h2>
-    <div id="options-container"></div>
-    <div class="quiz-actions">
-      <button id="bookmark-btn"><i class="far fa-star"></i> Save for Later</button>
-      <button id="next-btn">अगला सवाल →</button>
-    </div>
-  </section>
-
-  <section class="container" id="result-section" style="display:none;">
-    <h2>आपका रिजल्ट</h2>
-    <p>स्कोर: <strong><span id="final-score">0</span></strong> / <span id="final-total"></span></p>
-    <p>परसेंटेज: <strong><span id="percent"></span>%</strong></p>
-    <button onclick="restartQuiz()">नया टेस्ट शुरू करें</button>
   </section>
 
   <footer>
-    <p>Created by Naveen Chaudhary | Naglna Ugrasen Post Kuchesar Distt Bulandshahr</p>
+    <p>Naveen Chaudhary</p>
+    <p>Naglna Ugrasen, Post Kuchesar, Distt Bulandshahr, UP</p>
   </footer>
 
-  <!-- questions.js फाइल लोड करो (अलग फाइल में रखो) -->
-  <script src="questions.js"></script>
   <script>
-    // -------------------------- 
-    // Saved Questions काउंट अपडेट
-    // --------------------------
+    const quizzes = {
+      gk: [
+        { question: "भारत की राजधानी क्या है?", options: ["A. दिल्ली", "B. मुंबई", "C. कोलकाता", "D. चेन्नई"], correct: 0 },
+        { question: "भारत का राष्ट्रीय पशु क्या है?", options: ["A. शेर", "B. बाघ", "C. हाथी", "D. मोर"], correct: 1 }
+      ],
+      math: [
+        { question: "2 + 2 = ?", options: ["A. 3", "B. 4", "C. 5", "D. 6"], correct: 1 }
+      ],
+      reasoning: [
+        { question: "जिस तरह 'डॉक्टर : अस्पताल' है, उसी तरह 'शिक्षक : ?'", options: ["A. स्कूल", "B. कक्षा", "C. किताब", "D. छात्र"], correct: 0 }
+      ],
+      english: [
+        { question: "Opposite of 'Happy' is?", options: ["A. Sad", "B. Joyful", "C. Excited", "D. Angry"], correct: 0 }
+      ]
+    };
+
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let timerInterval;
+    let savedQuestions = JSON.parse(localStorage.getItem('savedQuestions')) || [];
+
     function updateSavedCount() {
-      const count = savedQuestions.length;
-      document.getElementById('saved-count').innerText = count;
-      document.getElementById('saved-num').innerText = count;
-      localStorage.setItem('savedExamQuestions', JSON.stringify(savedQuestions));
+      document.getElementById('saved-count').innerText = savedQuestions.length;
+      localStorage.setItem('savedQuestions', JSON.stringify(savedQuestions));
     }
 
-    // -------------------------- 
-    // क्विज शुरू
-    // --------------------------
     function startQuiz(category) {
-      currentCategory = category;
-      currentQuestions = quizzes[category] || [];
-      
-      if (currentQuestions.length === 0) {
-        alert("इस कैटेगरी में सवाल नहीं हैं! AI से बनवाओ या questions.js में ऐड करो।");
-        return;
-      }
-      
+      currentQuestions = quizzes[category];
       currentIndex = 0;
       score = 0;
       document.getElementById('home').style.display = 'none';
       document.getElementById('quiz-section').style.display = 'block';
-      
       loadQuestion();
-      startTimer(30 * 60); // 30 मिनट
+      startTimer(30 * 60);
     }
 
-    // -------------------------- 
-    // सवाल लोड
-    // --------------------------
     function loadQuestion() {
       const q = currentQuestions[currentIndex];
       document.getElementById('question-text').innerText = q.question;
-      document.getElementById('q-no').innerText = currentIndex + 1;
-      document.getElementById('total-q').innerText = currentQuestions.length;
-
       const container = document.getElementById('options-container');
       container.innerHTML = '';
-
       q.options.forEach((opt, i) => {
         const btn = document.createElement('button');
         btn.innerText = opt;
-        btn.onclick = () => selectOption(i, btn);
+        btn.onclick = () => selectOption(i);
         container.appendChild(btn);
       });
-
-      document.getElementById('bookmark-btn').onclick = () => {
-        if (!savedQuestions.some(sq => sq.question === q.question)) {
-          savedQuestions.push(q);
-          alert("Saved!");
-          updateSavedCount();
-        }
-      };
     }
 
-    // -------------------------- 
-    // ऑप्शन चुनना
-    // --------------------------
-    function selectOption(selected, btn) {
-      const correct = currentQuestions[currentIndex].correct;
-      if (selected === correct) score++;
+    function selectOption(selected) {
+      if (selected === currentQuestions[currentIndex].correct) score++;
       currentIndex++;
-      if (currentIndex < currentQuestions.length) {
-        loadQuestion();
-      } else {
-        endQuiz();
-      }
+      if (currentIndex < currentQuestions.length) loadQuestion();
+      else endQuiz();
     }
 
-    // -------------------------- 
-    // टाइमर
-    // --------------------------
-    function startTimer(sec) {
-      let time = sec;
+    function startTimer(seconds) {
+      let timeLeft = seconds;
       timerInterval = setInterval(() => {
-        time--;
-        let m = Math.floor(time / 60);
-        let s = time % 60;
-        document.getElementById('time-left').innerText = `\( {m}: \){s < 10 ? '0' : ''}${s}`;
-        if (time <= 0) endQuiz();
+        timeLeft--;
+        const min = Math.floor(timeLeft / 60);
+        const sec = timeLeft % 60;
+        document.getElementById('time-left').innerText = `\( {min}: \){sec < 10 ? '0' : ''}${sec}`;
+        if (timeLeft <= 0) endQuiz();
       }, 1000);
     }
 
-    // -------------------------- 
-    // रिजल्ट दिखाना
-    // --------------------------
     function endQuiz() {
       clearInterval(timerInterval);
       document.getElementById('quiz-section').style.display = 'none';
@@ -272,100 +368,16 @@
       document.getElementById('percent').innerText = ((score / currentQuestions.length) * 100).toFixed(1);
     }
 
-    // -------------------------- 
-    // रीस्टार्ट
-    // --------------------------
     function restartQuiz() {
       document.getElementById('result-section').style.display = 'none';
       document.getElementById('home').style.display = 'block';
       clearInterval(timerInterval);
     }
 
-    // -------------------------- 
-    // Saved दिखाना
-    // --------------------------
-    function showSaved() {
-      if (savedQuestions.length === 0) return alert("कोई saved नहीं!");
-      currentQuestions = savedQuestions;
-      currentIndex = 0;
-      score = 0;
-      document.getElementById('home').style.display = 'none';
-      document.getElementById('quiz-section').style.display = 'block';
-      loadQuestion();
-      startTimer(30 * 60);
-    }
-
-    // -------------------------- 
-    // Saved क्लियर
-    // --------------------------
-    function clearSaved() {
-      if (confirm("सारे saved डिलीट?")) {
-        savedQuestions = [];
-        updateSavedCount();
-      }
-    }
-
-    // -------------------------- 
-    // डार्क मोड
-    // --------------------------
-    themeToggle.onclick = () => {
+    document.getElementById('theme-toggle').onclick = () => {
       document.body.classList.toggle('dark');
-      themeToggle.innerHTML = document.body.classList.contains('dark') 
-        ? '<i class="fas fa-sun"></i> लाइट मोड' 
-        : '<i class="fas fa-moon"></i> डार्क मोड';
     };
 
-    // -------------------------- 
-    // Groq से सवाल जनरेट
-    // --------------------------
-    async function generateQuestionsFromGroq() {
-      const apiKey = prompt("Groq API Key डालो (gsk_ से शुरू):");
-      if (!apiKey || !apiKey.startsWith('gsk_')) {
-        alert("सही Key डालो!");
-        return;
-      }
-
-      const topic = prompt("टॉपिक लिखो (उदा. SSC CGL GK)") || "SSC CGL General Knowledge";
-
-      try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            model: "llama-3.1-70b-versatile",
-            messages: [
-              { role: "system", content: "सिर्फ VALID JSON दो। फॉर्मेट: {\"questions\": [{\"question\":\"...\",\"options\":[\"A. ...\",\"B. ...\",\"C. ...\",\"D. ...\"],\"correct\":0}]} 10 सवाल हिंदी में।" },
-              { role: "user", content: `टॉपिक: ${topic}. 10 MCQ बनाओ।` }
-            ],
-            temperature: 0.5,
-            max_tokens: 2000
-          })
-        });
-
-        const data = await res.json();
-        const raw = data.choices[0].message.content.trim();
-
-        let newQs;
-        try {
-          newQs = JSON.parse(raw).questions;
-        } catch (e) {
-          alert("AI ने JSON नहीं दिया:\n" + raw);
-          return;
-        }
-
-        if (!quizzes.aiGenerated) quizzes.aiGenerated = [];
-        quizzes.aiGenerated.push(...newQs);
-
-        alert(`AI ने ${newQs.length} सवाल बनाए! अब AI Generated कैटेगरी से खेलो।`);
-      } catch (err) {
-        alert("एरर: " + err.message);
-      }
-    }
-
-    // इनिशियलाइज
     updateSavedCount();
   </script>
 </body>
