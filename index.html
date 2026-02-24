@@ -4,14 +4,120 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Naveen Exam Prep - मॉक टेस्ट & PYQ प्रैक्टिस</title>
-  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background:#f0f4f8; 
+      color:#333; 
+      line-height:1.6; 
+      transition: background 0.3s, color 0.3s; 
+    }
+    .container { max-width:1100px; margin:0 auto; padding:20px; }
+
+    header { 
+      background: linear-gradient(135deg, #007bff, #0056b3); 
+      color:white; 
+      text-align:center; 
+      padding:40px 20px; 
+    }
+    header h1 { font-size:2.5rem; margin-bottom:10px; }
+    header p { font-size:1.2rem; }
+
+    nav { 
+      background:#fff; 
+      box-shadow:0 2px 5px rgba(0,0,0,0.1); 
+      padding:15px 0; 
+      text-align:center; 
+    }
+    #search { 
+      width:70%; max-width:500px; 
+      padding:12px; 
+      font-size:1rem; 
+      border:1px solid #ccc; 
+      border-radius:5px; 
+    }
+    #saved-info { margin-top:10px; font-weight:bold; color:#007bff; }
+
+    .categories { 
+      display:grid; 
+      grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); 
+      gap:15px; 
+      margin:30px 0; 
+    }
+    .categories button, .ai-btn { 
+      padding:20px; 
+      font-size:1.2rem; 
+      background:#007bff; 
+      color:white; 
+      border:none; 
+      border-radius:8px; 
+      cursor:pointer; 
+      transition:0.3s; 
+    }
+    .categories button:hover, .ai-btn:hover { 
+      background:#0056b3; 
+      transform:scale(1.05); 
+    }
+    .ai-btn { 
+      background:#6f42c1; 
+      grid-column: 1 / -1; 
+      margin-top:20px; 
+    }
+
+    #quiz-section { 
+      background:white; 
+      border-radius:12px; 
+      box-shadow:0 5px 15px rgba(0,0,0,0.1); 
+      padding:30px; 
+      margin:30px auto; 
+      max-width:800px; 
+    }
+    .quiz-header { display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold; }
+    #timer { color:#dc3545; font-size:1.3rem; }
+    #progress { color:#28a745; }
+
+    #question-text { font-size:1.4rem; margin-bottom:25px; }
+    #options-container button { 
+      display:block; 
+      width:100%; 
+      padding:15px; 
+      margin:10px 0; 
+      background:#f8f9fa; 
+      border:1px solid #ddd; 
+      border-radius:6px; 
+      text-align:left; 
+      cursor:pointer; 
+      font-size:1.1rem; 
+      transition:0.2s; 
+    }
+    #options-container button:hover { background:#e9ecef; }
+
+    .quiz-actions { margin-top:30px; text-align:center; }
+    .quiz-actions button { padding:12px 25px; font-size:1.1rem; margin:0 10px; border:none; border-radius:6px; cursor:pointer; }
+    #bookmark-btn { background:#ffc107; color:#333; }
+    #next-btn { background:#28a745; color:white; }
+
+    #result-section { text-align:center; background:white; padding:40px; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); margin:40px auto; max-width:600px; }
+    #result-section h2 { color:#007bff; }
+
+    footer { background:#333; color:white; text-align:center; padding:20px; margin-top:50px; font-size:0.9rem; }
+
+    .dark body { background:#121212; color:#e0e0e0; }
+    .dark header { background:linear-gradient(135deg, #004085, #002752); }
+    .dark nav { background:#1e1e1e; }
+    .dark #quiz-section, .dark #result-section { background:#1e1e1e; border:1px solid #333; }
+    .dark #options-container button { background:#2c2c2c; border-color:#444; color:#e0e0e0; }
+    .dark #options-container button:hover { background:#3a3a3a; }
+  </style>
 </head>
 <body>
+
   <header>
     <div class="container">
       <h1>Naveen Exam Prep</h1>
-      <p>SSC, Banking, Railways, UPSC जैसी परीक्षाओं के लिए रियल एग्जाम लेवल मॉक टेस्ट</p>
+      <p>SSC, Banking, Railways, UPSC जैसी परीक्षाओं के लिए सिर्फ मॉक टेस्ट और प्रैक्टिस</p>
       <button id="theme-toggle"><i class="fas fa-moon"></i> डार्क मोड</button>
     </div>
   </header>
@@ -28,8 +134,10 @@
       <button onclick="startQuiz('math')">Quantitative Aptitude</button>
       <button onclick="startQuiz('reasoning')">Reasoning</button>
       <button onclick="startQuiz('english')">English</button>
-      <!-- और कैटेगरी ऐड करो -->
     </div>
+
+    <!-- AI बटन -->
+    <button class="ai-btn" onclick="generateQuestionsFromGroq()">AI से 10 नए सवाल बनवाओ (Groq API)</button>
 
     <div id="saved-section" style="margin-top: 30px;">
       <h3>Saved Questions (<span id="saved-num">0</span>)</h3>
@@ -62,7 +170,203 @@
     <p>Created by Naveen Chaudhary | Naglna Ugrasen Post Kuchesar Distt Bulandshahr</p>
   </footer>
 
+  <!-- questions.js फाइल लोड करो (अलग फाइल में रखो) -->
   <script src="questions.js"></script>
-  <script src="script.js"></script>
+  <script>
+    // -------------------------- 
+    // Saved Questions काउंट अपडेट
+    // --------------------------
+    function updateSavedCount() {
+      const count = savedQuestions.length;
+      document.getElementById('saved-count').innerText = count;
+      document.getElementById('saved-num').innerText = count;
+      localStorage.setItem('savedExamQuestions', JSON.stringify(savedQuestions));
+    }
+
+    // -------------------------- 
+    // क्विज शुरू
+    // --------------------------
+    function startQuiz(category) {
+      currentCategory = category;
+      currentQuestions = quizzes[category] || [];
+      
+      if (currentQuestions.length === 0) {
+        alert("इस कैटेगरी में सवाल नहीं हैं! AI से बनवाओ या questions.js में ऐड करो।");
+        return;
+      }
+      
+      currentIndex = 0;
+      score = 0;
+      document.getElementById('home').style.display = 'none';
+      document.getElementById('quiz-section').style.display = 'block';
+      
+      loadQuestion();
+      startTimer(30 * 60); // 30 मिनट
+    }
+
+    // -------------------------- 
+    // सवाल लोड
+    // --------------------------
+    function loadQuestion() {
+      const q = currentQuestions[currentIndex];
+      document.getElementById('question-text').innerText = q.question;
+      document.getElementById('q-no').innerText = currentIndex + 1;
+      document.getElementById('total-q').innerText = currentQuestions.length;
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.innerText = opt;
+        btn.onclick = () => selectOption(i, btn);
+        container.appendChild(btn);
+      });
+
+      document.getElementById('bookmark-btn').onclick = () => {
+        if (!savedQuestions.some(sq => sq.question === q.question)) {
+          savedQuestions.push(q);
+          alert("Saved!");
+          updateSavedCount();
+        }
+      };
+    }
+
+    // -------------------------- 
+    // ऑप्शन चुनना
+    // --------------------------
+    function selectOption(selected, btn) {
+      const correct = currentQuestions[currentIndex].correct;
+      if (selected === correct) score++;
+      currentIndex++;
+      if (currentIndex < currentQuestions.length) {
+        loadQuestion();
+      } else {
+        endQuiz();
+      }
+    }
+
+    // -------------------------- 
+    // टाइमर
+    // --------------------------
+    function startTimer(sec) {
+      let time = sec;
+      timerInterval = setInterval(() => {
+        time--;
+        let m = Math.floor(time / 60);
+        let s = time % 60;
+        document.getElementById('time-left').innerText = `\( {m}: \){s < 10 ? '0' : ''}${s}`;
+        if (time <= 0) endQuiz();
+      }, 1000);
+    }
+
+    // -------------------------- 
+    // रिजल्ट दिखाना
+    // --------------------------
+    function endQuiz() {
+      clearInterval(timerInterval);
+      document.getElementById('quiz-section').style.display = 'none';
+      document.getElementById('result-section').style.display = 'block';
+      document.getElementById('final-score').innerText = score;
+      document.getElementById('final-total').innerText = currentQuestions.length;
+      document.getElementById('percent').innerText = ((score / currentQuestions.length) * 100).toFixed(1);
+    }
+
+    // -------------------------- 
+    // रीस्टार्ट
+    // --------------------------
+    function restartQuiz() {
+      document.getElementById('result-section').style.display = 'none';
+      document.getElementById('home').style.display = 'block';
+      clearInterval(timerInterval);
+    }
+
+    // -------------------------- 
+    // Saved दिखाना
+    // --------------------------
+    function showSaved() {
+      if (savedQuestions.length === 0) return alert("कोई saved नहीं!");
+      currentQuestions = savedQuestions;
+      currentIndex = 0;
+      score = 0;
+      document.getElementById('home').style.display = 'none';
+      document.getElementById('quiz-section').style.display = 'block';
+      loadQuestion();
+      startTimer(30 * 60);
+    }
+
+    // -------------------------- 
+    // Saved क्लियर
+    // --------------------------
+    function clearSaved() {
+      if (confirm("सारे saved डिलीट?")) {
+        savedQuestions = [];
+        updateSavedCount();
+      }
+    }
+
+    // -------------------------- 
+    // डार्क मोड
+    // --------------------------
+    themeToggle.onclick = () => {
+      document.body.classList.toggle('dark');
+      themeToggle.innerHTML = document.body.classList.contains('dark') 
+        ? '<i class="fas fa-sun"></i> लाइट मोड' 
+        : '<i class="fas fa-moon"></i> डार्क मोड';
+    };
+
+    // -------------------------- 
+    // Groq से सवाल जनरेट
+    // --------------------------
+    async function generateQuestionsFromGroq() {
+      const apiKey = prompt("Groq API Key डालो (gsk_ से शुरू):");
+      if (!apiKey || !apiKey.startsWith('gsk_')) {
+        alert("सही Key डालो!");
+        return;
+      }
+
+      const topic = prompt("टॉपिक लिखो (उदा. SSC CGL GK)") || "SSC CGL General Knowledge";
+
+      try {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: "llama-3.1-70b-versatile",
+            messages: [
+              { role: "system", content: "सिर्फ VALID JSON दो। फॉर्मेट: {\"questions\": [{\"question\":\"...\",\"options\":[\"A. ...\",\"B. ...\",\"C. ...\",\"D. ...\"],\"correct\":0}]} 10 सवाल हिंदी में।" },
+              { role: "user", content: `टॉपिक: ${topic}. 10 MCQ बनाओ।` }
+            ],
+            temperature: 0.5,
+            max_tokens: 2000
+          })
+        });
+
+        const data = await res.json();
+        const raw = data.choices[0].message.content.trim();
+
+        let newQs;
+        try {
+          newQs = JSON.parse(raw).questions;
+        } catch (e) {
+          alert("AI ने JSON नहीं दिया:\n" + raw);
+          return;
+        }
+
+        if (!quizzes.aiGenerated) quizzes.aiGenerated = [];
+        quizzes.aiGenerated.push(...newQs);
+
+        alert(`AI ने ${newQs.length} सवाल बनाए! अब AI Generated कैटेगरी से खेलो।`);
+      } catch (err) {
+        alert("एरर: " + err.message);
+      }
+    }
+
+    // इनिशियलाइज
+    updateSavedCount();
+  </script>
 </body>
 </html>
