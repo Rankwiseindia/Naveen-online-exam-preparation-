@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI सवाल जनरेटर v3 - Groq</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f0f4f8; color:#333; padding:20px; max-width:900px; margin:auto; }
+    h1 { color:#007bff; text-align:center; }
+    input, button { padding:12px; font-size:16px; margin:10px 0; width:100%; border-radius:6px; border:1px solid #ccc; }
+    button { background:#28a745; color:white; border:none; cursor:pointer; }
+    button:hover { background:#218838; }
+    #output { background:white; padding:20px; border-radius:10px; margin-top:20px; min-height:300px; border:1px solid #ddd; white-space:pre-wrap; word-wrap:break-word; font-family:monospace; }
+    .error { color:red; font-weight:bold; }
+    .success { color:green; font-weight:bold; }
+    pre { background:#f8f9fa; padding:15px; border-radius:8px; overflow:auto; }
+  </style>
+</head>
+<body>
+
+  <h1>Groq AI से सवाल बनाओ (v3 - सबसे आसान)</h1>
+
+  <div>
+    <label>Groq API Key:</label><br>
+    <input type="text" id="apiKey" placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+  </div>
+
+  <div>
+    <label>टॉपिक लिखो:</label><br>
+    <input type="text" id="topic" value="SSC CGL General Knowledge in Hindi" placeholder="उदा. SSC CGL Reasoning">
+  </div>
+
+  <button onclick="generateQuestions()">10 MCQ सवाल बनाओ</button>
+
+  <div id="output">
+    <p>यहाँ AI का पूरा रिस्पॉन्स दिखेगा (JSON या टेक्स्ट कुछ भी आएगा)</p>
+  </div>
+
+  <script>
+    async function generateQuestions() {
+      const apiKey = document.getElementById('apiKey').value.trim();
+      const topic = document.getElementById('topic').value.trim() || "SSC CGL GK";
+
+      if (!apiKey || !apiKey.startsWith('gsk_')) {
+        alert("सही API Key डालो!");
+        return;
+      }
+
+      const output = document.getElementById('output');
+      output.innerHTML = `<p class="success">सवाल जनरेट हो रहे हैं... (मॉडल: llama-3.1-70b)</p>`;
+
+      try {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: "llama-3.1-70b-versatile",
+            messages: [
+              {
+                role: "system",
+                content: "तुम MCQ जनरेटर हो। जवाब में सिर्फ 10 सवाल दो। हर सवाल हिंदी में, 4 ऑप्शन (A B C D), एक सही। कोई एक्स्ट्रा टेक्स्ट मत डालना। फॉर्मेट: सवाल 1: ... \nA. ... \nB. ... \nC. ... \nD. ... \nसही: A/B/C/D \nफिर सवाल 2... इसी तरह 10 सवाल तक।"
+              },
+              {
+                role: "user",
+                content: `टॉपिक: ${topic}. ठीक 10 MCQ बनाओ।`
+              }
+            ],
+            temperature: 0.4,
+            max_tokens: 3000
+          })
+        });
+
+        if (!response.ok) {
+          const err = await response.text();
+          output.innerHTML = `<p class="error">API एरर ${response.status}: ${err}</p>`;
+          return;
+        }
+
+        const data = await response.json();
+        const rawText = data.choices[0].message.content.trim();
+
+        // रॉ रिस्पॉन्स दिखाओ (हमेशा दिखेगा)
+        let html = `<p class="success">AI का पूरा रिस्पॉन्स:</p><pre>${rawText}</pre>`;
+
+        // अगर JSON जैसा लगे तो ट्राई करके साफ दिखाओ
+        if (rawText.includes('{') || rawText.includes('[')) {
+          try {
+            const parsed = JSON.parse(rawText);
+            if (parsed.questions && parsed.questions.length > 0) {
+              html += `<p class="success">JSON सही मिला! ${parsed.questions.length} सवाल:</p>`;
+              parsed.questions.forEach((q, i) => {
+                html += `<div style="margin:15px 0; padding:10px; background:#f8f9fa; border-radius:6px;">
+                  <strong>सवाल ${i+1}:</strong> ${q.question}<br>
+                  <ol type="A">
+                    \( {q.options.map(opt => `<li> \){opt}</li>`).join('')}
+                  </ol>
+                  <strong>सही:</strong> ${String.fromCharCode(65 + q.correct)}
+                </div>`;
+              });
+            }
+          } catch (e) {
+            // JSON नहीं तो कुछ नहीं
+          }
+        }
+
+        output.innerHTML = html;
+
+      } catch (error) {
+        output.innerHTML = `<p class="error">कनेक्शन एरर: ${error.message}</p>
+          <p>चेक करो: Key सही है? इंटरनेट है? Groq कंसोल में देखो।</p>`;
+      }
+    }
+  </script>
+
+</body>
+</html>
