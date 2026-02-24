@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naveen Exam Prep - मॉक टेस्ट & PYQ प्रैक्टिस</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Naveen Exam Prep</h1>
+      <p>SSC, Banking, Railways, UPSC जैसी परीक्षाओं के लिए रियल एग्जाम लेवल मॉक टेस्ट</p>
+      <button id="theme-toggle"><i class="fas fa-moon"></i> डार्क मोड</button>
+    </div>
+  </header>
+
+  <nav class="container">
+    <input type="text" id="search" placeholder="एग्जाम या टॉपिक सर्च करें...">
+    <div id="saved-info">Saved Questions: <span id="saved-count">0</span></div>
+  </nav>
+
+  <section class="container" id="home">
+    <h2>कैटेगरी चुनें</h2>
+    <div class="categories">
+      <button onclick="startQuiz('gk')">General Knowledge / Current Affairs</button>
+      <button onclick="startQuiz('math')">Quantitative Aptitude</button>
+      <button onclick="startQuiz('reasoning')">Reasoning</button>
+      <button onclick="startQuiz('english')">English</button>
+      <!-- और कैटेगरी ऐड करो -->
+    </div>
+
+    <div id="saved-section" style="margin-top: 30px;">
+      <h3>Saved Questions (<span id="saved-num">0</span>)</h3>
+      <button onclick="showSaved()">Saved देखें / प्रैक्टिस करें</button>
+      <button onclick="clearSaved()">Clear All Saved</button>
+    </div>
+  </section>
+
+  <section class="container" id="quiz-section" style="display:none;">
+    <div class="quiz-header">
+      <div id="timer">समय बाकी: <span id="time-left">00:00</span></div>
+      <div id="progress">सवाल <span id="q-no">1</span> / <span id="total-q">50</span></div>
+    </div>
+    <h2 id="question-text"></h2>
+    <div id="options-container"></div>
+    <div class="quiz-actions">
+      <button id="bookmark-btn"><i class="far fa-star"></i> Save for Later</button>
+      <button id="next-btn">अगला सवाल →</button>
+    </div>
+  </section>
+
+  <section class="container" id="result-section" style="display:none;">
+    <h2>आपका रिजल्ट</h2>
+    <p>स्कोर: <strong><span id="final-score">0</span></strong> / <span id="final-total"></span></p>
+    <p>परसेंटेज: <strong><span id="percent"></span>%</strong></p>
+    <button onclick="restartQuiz()">नया टेस्ट शुरू करें</button>
+  </section>
+
+  <footer>
+    <p>Created by Naveen Chaudhary | Naglna Ugrasen Post Kuchesar Distt Bulandshahr</p>
+  </footer>
+
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
