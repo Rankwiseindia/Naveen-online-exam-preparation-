@@ -1,20 +1,93 @@
 const quizzes = {
-  gk: [
+  gk: [  // General Knowledge / Current Affairs (20 सैंपल सवाल)
     { question: "भारत की राजधानी क्या है?", options: ["दिल्ली", "मुंबई", "कोलकाता", "चेन्नई"], correct: 0 },
     { question: "भारत का राष्ट्रीय पशु कौन सा है?", options: ["शेर", "बाघ", "हाथी", "मोर"], correct: 1 },
     { question: "भारत का राष्ट्रीय फल क्या है?", options: ["केला", "आम", "सेब", "अनार"], correct: 1 },
-    { question: "सूर्य का रंग मुख्य रूप से क्या दिखता है?", options: ["नीला", "पीला", "लाल", "हरा"], correct: 1 },
-    // यहाँ 50-100+ सवाल ऐड करो (ChatGPT से जनरेट करवा लो)
+    { question: "भारत का राष्ट्रीय पक्षी क्या है?", options: ["तोता", "मोर", "कबूतर", "गिद्ध"], correct: 1 },
+    { question: "भारत का राष्ट्रीय फूल क्या है?", options: ["गुलाब", "कमल", "सूरजमुखी", "चमेली"], correct: 1 },
+    { question: "भारत का सबसे लंबा नदी कौन सी है?", options: ["गंगा", "यमुना", "ब्रह्मपुत्र", "गोदावरी"], correct: 0 },
+    { question: "भारत का सबसे ऊँचा पर्वत शिखर कौन सा है?", options: ["कंचनजंगा", "एवरेस्ट", "नंदा देवी", "क2"], correct: 0 },
+    { question: "भारत का राष्ट्रीय खेल क्या है?", options: ["क्रिकेट", "हॉकी", "कबड्डी", "फुटबॉल"], correct: 1 },
+    { question: "भारत की स्वतंत्रता कब हुई?", options: ["1945", "1947", "1950", "1942"], correct: 1 },
+    { question: "भारत का पहला प्रधानमंत्री कौन था?", options: ["जवाहरलाल नेहरू", "सरदार पटेल", "सुभाष चंद्र बोस", "गांधीजी"], correct: 0 },
+    { question: "भारत का राष्ट्रीय गान किसने लिखा?", options: ["रवींद्रनाथ टैगोर", "बंकिम चंद्र", "महाराणा प्रताप", "भगत सिंह"], correct: 0 },
+    { question: "भारत का सबसे बड़ा राज्य क्षेत्रफल में कौन सा है?", options: ["राजस्थान", "मध्य प्रदेश", "महाराष्ट्र", "उत्तर प्रदेश"], correct: 0 },
+    { question: "भारत का सबसे छोटा राज्य कौन सा है?", options: ["गोवा", "सिक्किम", "त्रिपुरा", "नागालैंड"], correct: 0 },
+    { question: "भारत का राष्ट्रीय पेड़ क्या है?", options: ["बरगद", "पीपल", "नीम", "आम का पेड़"], correct: 0 },
+    { question: "भारत का मुद्रा चिन्ह क्या है?", options: ["रुपया", "डॉलर", "येन", "यूरो"], correct: 0 },
+    { question: "भारत का सबसे पुराना विश्वविद्यालय कौन सा है?", options: ["नालंदा", "तक्षशिला", "जोधपुर", "दिल्ली"], correct: 1 },
+    { question: "भारत का राष्ट्रीय खेल दिवस कब मनाया जाता है?", options: ["29 अगस्त", "26 जनवरी", "15 अगस्त", "2 अक्टूबर"], correct: 0 },
+    { question: "भारत का सबसे लंबा पुल कौन सा है?", options: ["धोला-सतनारा पुल", "हावड़ा ब्रिज", "बांद्रा-वर्ली सी लिंक", "महात्मा गांधी सेतु"], correct: 0 },
+    { question: "भारत का सबसे ऊँचा बांध कौन सा है?", options: ["टिहरी बांध", "भाखड़ा बांध", "सरदार सरोवर", "हीराकुड"], correct: 0 },
+    { question: "भारत का राष्ट्रीय खेल पुरस्कार 'अर्जुन अवॉर्ड' कब शुरू हुआ?", options: ["1961", "1950", "1947", "1972"], correct: 0 }
   ],
-  math: [
+
+  math: [  // Quantitative Aptitude (20 सैंपल सवाल)
     { question: "15 × 12 = ?", options: ["160", "180", "200", "150"], correct: 1 },
     { question: "√81 = ?", options: ["7", "8", "9", "10"], correct: 2 },
-    // और मैथ्स सवाल ऐड करो
+    { question: "25% of 400 क्या है?", options: ["80", "100", "120", "150"], correct: 1 },
+    { question: "एक ट्रेन 60 km/h की रफ्तार से 300 km तय करती है। समय कितना लगेगा?", options: ["4 घंटे", "5 घंटे", "6 घंटे", "3 घंटे"], correct: 1 },
+    { question: "2:3 का अनुपात 10 से गुणा करने पर क्या होगा?", options: ["20:30", "2:30", "20:3", "6:9"], correct: 0 },
+    { question: "एक नंबर का 20% 50 है, तो नंबर क्या है?", options: ["200", "250", "300", "150"], correct: 1 },
+    { question: "8! का मान क्या है?", options: ["40320", "5040", "720", "120"], correct: 1 },
+    { question: "एक दुकानदार 20% लाभ पर 1200 रुपये में सामान बेचता है। क्रय मूल्य क्या था?", options: ["1000", "960", "800", "1200"], correct: 0 },
+    { question: "साधारण ब्याज पर 5000 रुपये 2 साल में 10% ब्याज पर कितना ब्याज मिलेगा?", options: ["1000", "500", "100", "2000"], correct: 0 },
+    { question: "एक नाव धारा में 10 km/h और स्थिर पानी में 15 km/h जाती है। धारा की गति क्या है?", options: ["5 km/h", "2.5 km/h", "10 km/h", "7.5 km/h"], correct: 0 },
+    { question: "3:4:5 अनुपात में 1200 का विभाजन क्या होगा?", options: ["300:400:500", "360:480:360", "400:300:500", "200:400:600"], correct: 0 },
+    { question: "एक घड़ी 12 बजे सही है, लेकिन 5 मिनट तेज चलती है। 3 घंटे बाद समय क्या होगा?", options: ["3:15", "3:05", "3:10", "3:00"], correct: 0 },
+    { question: "लाभ प्रतिशत = (बिक्री मूल्य - क्रय मूल्य)/क्रय मूल्य × 100। अगर CP=800, SP=1000 तो लाभ %?", options: ["20%", "25%", "30%", "15%"], correct: 1 },
+    { question: "एक आदमी 60 km/h से चलता है। 2 घंटे में कितनी दूरी तय करेगा?", options: ["100 km", "120 km", "80 km", "140 km"], correct: 1 },
+    { question: "1 से 100 तक के योग क्या है?", options: ["5050", "5000", "4950", "5100"], correct: 0 },
+    { question: "एक संख्या का 40% 80 है, संख्या क्या है?", options: ["200", "180", "160", "220"], correct: 0 },
+    { question: "एक टैंक 20 घंटे में भरता है, 30 घंटे में खाली होता है। दोनों साथ चलें तो कितने घंटे में भरेगा?", options: ["60 घंटे", "12 घंटे", "15 घंटे", "10 घंटे"], correct: 0 },
+    { question: "5 महिलाएँ 10 दिन में काम पूरा करती हैं। 10 महिलाएँ कितने दिन में?", options: ["5 दिन", "10 दिन", "20 दिन", "2.5 दिन"], correct: 0 },
+    { question: "एक घड़ी 10 मिनट धीमी चलती है। 6 घंटे बाद सही समय से कितना पीछे होगी?", options: ["60 मिनट", "50 मिनट", "70 मिनट", "30 मिनट"], correct: 0 },
+    { question: "लगातार 5 संख्याओं का औसत 25 है। सबसे बड़ी संख्या क्या है?", options: ["27", "28", "26", "30"], correct: 1 }
   ],
-  reasoning: [
-    // reasoning सवाल ऐड करो
+
+  reasoning: [  // Reasoning (20 सैंपल सवाल)
+    { question: "जिस तरह 'डॉक्टर : अस्पताल' है, उसी तरह 'शिक्षक : ?'", options: ["स्कूल", "कक्षा", "किताब", "छात्र"], correct: 0 },
+    { question: "श्रृंखला पूरी करो: 2, 5, 10, 17, ?", options: ["24", "26", "28", "30"], correct: 1 },
+    { question: "एक आदमी दक्षिण मुंह करके खड़ा है। बाईं तरफ मुड़े तो किस दिशा में होगा?", options: ["पूर्व", "पश्चिम", "उत्तर", "दक्षिण"], correct: 0 },
+    { question: "निम्न में से कौन अलग है? दिल्ली, मुंबई, कोलकाता, चेन्नई, लंदन", options: ["लंदन", "दिल्ली", "मुंबई", "चेन्नई"], correct: 0 },
+    { question: "A की बहन B की माँ है। B, A से क्या संबंध है?", options: ["भाई", "बहन", "पुत्री", "माँ"], correct: 2 },
+    { question: "श्रृंखला: A, C, F, J, ?", options: ["O", "N", "P", "Q"], correct: 0 },
+    { question: "एक घड़ी में 3 बजकर 20 मिनट है। घंटे और मिनट की सुई के बीच कोण क्या है?", options: ["100°", "110°", "120°", "90°"], correct: 1 },
+    { question: "निम्न में से कौन सा शब्द अलग है? तारा, चंद्रमा, सूर्य, ग्रह", options: ["ग्रह", "तारा", "चंद्रमा", "सूर्य"], correct: 0 },
+    { question: "M + N – O × P ÷ Q का अर्थ क्या है?", options: ["M N से जुड़ा, O से घटाया, P से गुणा, Q से भाग"], correct: 0 },
+    { question: "एक आदमी 5 km उत्तर, 3 km पूर्व, 2 km दक्षिण जाता है। अब कहाँ है?", options: ["उत्तर में 3 km", "पूर्व में 3 km", "उत्तर-पूर्व", "शुरू के स्थान पर"], correct: 1 },
+    { question: "श्रृंखला: 1, 4, 9, 16, 25, ?", options: ["36", "49", "64", "81"], correct: 0 },
+    { question: "पिता की उम्र पुत्र से 3 गुना है। 5 साल बाद 2 गुना होगी। पुत्र की उम्र?", options: ["10 साल", "5 साल", "15 साल", "20 साल"], correct: 0 },
+    { question: "निम्न में से कौन अलग है? ROSE, LOTUS, LILY, JASMINE, APPLE", options: ["APPLE", "ROSE", "LOTUS", "LILY"], correct: 0 },
+    { question: "A : B :: C : ?", options: ["D", "E", "F", "G"], correct: 0 },
+    { question: "एक परिवार में 5 सदस्य हैं। औसत उम्र 30 साल है। सबसे छोटी की उम्र 10 है। बाकी का औसत?", options: ["35", "37.5", "40", "32.5"], correct: 1 },
+    { question: "श्रृंखला: 3, 6, 12, 24, ?", options: ["36", "48", "42", "60"], correct: 1 },
+    { question: "दर्पण में 'BOOK' कैसे दिखेगा?", options: ["KOOB", "BOOK", "BOOk", "KOO8"], correct: 0 },
+    { question: "एक घड़ी 12 बजे सही है, लेकिन 4 मिनट तेज। 1 घंटे बाद क्या समय दिखाएगी?", options: ["1:04", "1:00", "0:56", "1:08"], correct: 0 },
+    { question: "निम्न में से कौन अलग है? कान, आँख, नाक, जीभ, हाथ", options: ["हाथ", "कान", "आँख", "नाक"], correct: 0 },
+    { question: "P की बहन Q की माँ है। Q, P से क्या है?", options: ["बहन", "भाई", "पुत्री", "माँ"], correct: 2 }
   ],
-  english: [
-    // english सवाल ऐड करो
+
+  english: [  // English (20 सैंपल सवाल - हिंदी में प्रश्न, लेकिन इंग्लिश ऑप्शन)
+    { question: "Opposite of 'Happy' is?", options: ["Sad", "Joyful", "Excited", "Angry"], correct: 0 },
+    { question: "Synonym of 'Big' is?", options: ["Small", "Large", "Tiny", "Little"], correct: 1 },
+    { question: "Fill in the blank: She _____ to school every day.", options: ["go", "goes", "going", "gone"], correct: 1 },
+    { question: "Past tense of 'Eat' is?", options: ["Ate", "Eat", "Eaten", "Eating"], correct: 0 },
+    { question: "The sun _____ in the east.", options: ["rise", "rises", "rising", "rose"], correct: 1 },
+    { question: "Opposite of 'Hot' is?", options: ["Cold", "Warm", "Cool", "Heat"], correct: 0 },
+    { question: "He is _____ honest man.", options: ["a", "an", "the", "no article"], correct: 1 },
+    { question: "Plural of 'Child' is?", options: ["Childs", "Children", "Childes", "Childrens"], correct: 1 },
+    { question: "She sings _____.", options: ["beautiful", "beautifully", "beauty", "beautify"], correct: 1 },
+    { question: "I _____ my homework yesterday.", options: ["do", "did", "done", "doing"], correct: 1 },
+    { question: "The cat is _____ the table.", options: ["on", "in", "at", "under"], correct: 0 },
+    { question: "Opposite of 'Fast' is?", options: ["Slow", "Quick", "Rapid", "Speedy"], correct: 0 },
+    { question: "He _____ football.", options: ["play", "plays", "playing", "played"], correct: 1 },
+    { question: "This is _____ book.", options: ["my", "mine", "me", "I"], correct: 0 },
+    { question: "What is the meaning of 'Brave'?", options: ["डरपोक", "साहसी", "कमजोर", "असभ्य"], correct: 1 },
+    { question: "Choose correct spelling: Recieve / Receive", options: ["Recieve", "Receive", "Receeve", "Recive"], correct: 1 },
+    { question: "The boy _____ the ball.", options: ["kick", "kicks", "kicked", "kicking"], correct: 2 },
+    { question: "Opposite of 'Day' is?", options: ["Night", "Morning", "Evening", "Afternoon"], correct: 0 },
+    { question: "She is _____ doctor.", options: ["a", "an", "the", "no"], correct: 1 },
+    { question: "We _____ happy today.", options: ["is", "are", "am", "be"], correct: 1 }
   ]
 };
