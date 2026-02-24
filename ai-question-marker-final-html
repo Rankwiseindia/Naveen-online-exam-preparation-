@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI सवाल जनरेटर - Groq (Final Version)</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f8f9fa; color:#333; padding:30px; max-width:1000px; margin:auto; }
+    h1 { color:#007bff; text-align:center; margin-bottom:30px; }
+    input, button { padding:14px; font-size:18px; margin:15px 0; width:100%; border-radius:12px; border:1px solid #ccc; }
+    button { background:#28a745; color:white; border:none; cursor:pointer; font-weight:bold; }
+    button:hover { background:#218838; }
+    #output { background:#fff; padding:25px; border-radius:12px; margin-top:30px; min-height:300px; border:1px solid #ddd; white-space:pre-wrap; word-wrap:break-word; font-family:monospace; }
+    .error { color:#dc3545; font-weight:bold; margin:10px 0; }
+    .success { color:#28a745; font-weight:bold; margin:10px 0; }
+    pre { background:#f1f3f5; padding:15px; border-radius:8px; overflow:auto; font-size:0.95rem; }
+    .question { margin:25px 0; padding:20px; background:#f8f9fa; border-radius:12px; border-left:6px solid #007bff; }
+  </style>
+</head>
+<body>
+
+  <h1>Groq AI से 10 MCQ सवाल बनाओ</h1>
+
+  <input type="text" id="apiKey" placeholder="Groq API Key डालो (gsk_ से शुरू)">
+  <input type="text" id="topic" placeholder="टॉपिक लिखो (उदा. SSC CGL Reasoning in Hindi)" value="SSC CGL General Knowledge in Hindi">
+
+  <button onclick="generateQuestions()">सवाल जनरेट करो</button>
+
+  <div id="output">
+    <p>यहाँ AI का पूरा जवाब दिखेगा (JSON या टेक्स्ट कुछ भी आएगा)...</p>
+  </div>
+
+  <script>
+    async function generateQuestions() {
+      const apiKey = document.getElementById('apiKey').value.trim();
+      const topic = document.getElementById('topic').value.trim();
+
+      if (!apiKey || !apiKey.startsWith('gsk_')) {
+        alert("सही Groq API Key डालो!");
+        return;
+      }
+
+      if (!topic) {
+        alert("टॉपिक लिखो!");
+        return;
+      }
+
+      const output = document.getElementById('output');
+      output.innerHTML = `<p class="success">AI से सवाल बन रहे हैं... (कुछ सेकंड लगेंगे)</p>`;
+
+      try {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: "llama-3.1-70b-versatile",
+            messages: [
+              {
+                role: "system",
+                content: `तुम एक MCQ जनरेटर हो। जवाब में **केवल** VALID JSON दो। कोई भी एक्स्ट्रा टेक्स्ट, व्याख्या, "यहाँ हैं" या मार्कडाउन मत डालना।
+                फॉर्मेट बिल्कुल ये होना चाहिए:
+                {"questions":[
+                  {"question":"सवाल हिंदी में?","options":["A. विकल्प1","B. विकल्प2","C. विकल्प3","D. विकल्प4"],"correct":0},
+                  ...
+                ]}
+                correct: 0 = A, 1 = B, 2 = C, 3 = D
+                ठीक 10 सवाल बनाओ। SSC/Bank लेवल। हिंदी में।`
+              },
+              {
+                role: "user",
+                content: `टॉपिक: ${topic}. ठीक 10 MCQ बनाओ।`
+              }
+            ],
+            temperature: 0.3,
+            max_tokens: 3000
+          })
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          output.innerHTML = `<p class="error">API एरर ${response.status}: ${errText}</p>`;
+          return;
+        }
+
+        const data = await response.json();
+        const rawText = data.choices[0].message.content.trim();
+
+        // हमेशा रॉ दिखाओ
+        let html = `<p class="success">AI का पूरा रिस्पॉन्स:</p><pre>${rawText}</pre>`;
+
+        // JSON ट्राई करो
+        try {
+          const parsed = JSON.parse(rawText);
+          if (parsed.questions && parsed.questions.length > 0) {
+            html += `<p class="success">JSON सही मिला! ${parsed.questions.length} सवाल:</p>`;
+            parsed.questions.forEach((q, i) => {
+              html += `<div class="question">
+                <strong>सवाल ${i+1}:</strong> ${q.question}<br><br>
+                <ol type="A">
+                  \( {q.options.map(opt => `<li> \){opt}</li>`).join('')}
+                </ol>
+                <strong>सही जवाब:</strong> ${String.fromCharCode(65 + q.correct)}
+              </div>`;
+            });
+          } else {
+            html += `<p class="error">JSON में questions नहीं मिला।</p>`;
+          }
+        } catch (parseErr) {
+          html += `<p class="error">JSON पार्स नहीं हुआ (AI ने गलत फॉर्मेट दिया)। ऊपर रॉ टेक्स्ट देखो।</p>`;
+        }
+
+        output.innerHTML = html;
+
+      } catch (error) {
+        output.innerHTML = `<p class="error">कनेक्शन या API एरर: ${error.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
